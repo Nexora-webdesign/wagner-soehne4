@@ -1,15 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Inter } from "next/font/google";
+import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 
-// Headlines — Manrope (variable font, ExtraBold used via utility classes)
-const manrope = Manrope({
+// Display / headlines — Space Grotesk (variable), tight, modern-artistic.
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
-// Body — Inter (variable font)
+// Body — Inter (variable).
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -17,14 +17,14 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Wagner & Söhne — Malerbetrieb Münster",
+  title: "CHROMA — Mara Voss",
   description:
-    "Zuverlässig. Sauber. Pünktlich. Malerarbeiten in Münster seit 1998. Festpreis garantiert.",
+    "CHROMA — zeitgenössische abstrakte Malerei von Mara Voss. Farbe als eigenständige Sprache: tiefes Indigo, warmes Gold, Material und Licht.",
 };
 
 export const viewport: Viewport = {
-  // Next.js 16: themeColor lives in the `viewport` export, not in `metadata`.
-  themeColor: "#0f1e2e",
+  themeColor: "#0a0a0c",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
@@ -35,9 +35,9 @@ export default function RootLayout({
   return (
     <html
       lang="de"
-      className={`${manrope.variable} ${inter.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}
     >
-      <body className="min-h-full bg-cream text-ink">{children}</body>
+      <body>{children}</body>
     </html>
   );
 }

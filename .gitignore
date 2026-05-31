@@ -37,6 +37,9 @@ dev.log
 # vercel
 .vercel
 
+# local build tools (not a runtime asset — used only to (re)encode the hero video)
+public/ffmpeg.exe
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -1,69 +1,101 @@
 @import "tailwindcss";
 
-/* ---------------------------------------------------------------------------
-   Wagner & Söhne — Design tokens
-   Bodenständig, vertrauenswürdig, professionell (Familienbetrieb)
---------------------------------------------------------------------------- */
+/* ===========================================================================
+   CHROMA — Design system
+   Dark, gallery-like, editorial. Color (indigo + gold) used sparingly.
+   =========================================================================== */
 @theme {
-  --color-cream: #fafaf8; /* warmes Weiß — page background */
-  --color-card: #ffffff; /* card background */
-  --color-section: #f5f2ec; /* warmer Akzent-Hintergrund */
+  --color-bg: #0a0a0c; /* near-black, main background */
+  --color-elevated: #141417; /* cards / raised surfaces */
+  --color-text: #f4f1ea; /* warm off-white, primary text */
+  --color-muted: #8e8a82; /* secondary text */
+  --color-indigo: #4254e0; /* deep electric blue accent */
+  --color-gold: #c9a45c; /* warm gold accent */
 
-  --color-ink: #0f1e2e; /* text-primary — Deep Navy */
-  --color-muted: #4a5568; /* text-secondary */
-
-  --color-accent: #1e3a5f; /* Navy / Trust-Blau */
-  --color-accent-hover: #2c4f7c;
-  --color-gold: #c19a5b; /* Warm Gold — dezente Highlights */
-  --color-success: #2d8659; /* Meisterbetrieb-Badges etc. */
-
-  --font-display: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* signature fluid easing (Awwwards-tier, no linear/ease-in-out) */
+  --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 /* Base ---------------------------------------------------------------------- */
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 6rem; /* offset for the sticky header on anchor jumps */
   -webkit-text-size-adjust: 100%;
+  background: var(--color-bg);
 }
 
 body {
-  background: var(--color-cream);
-  color: var(--color-ink);
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 ::selection {
   background: var(--color-gold);
-  color: var(--color-ink);
+  color: var(--color-bg);
 }
 
-/* Scroll-reveal animation --------------------------------------------------- */
+/* Lenis smooth scroll ------------------------------------------------------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Scroll-reveal primitives -------------------------------------------------- */
+/* Heavy, gallery-grade fade-up with a soft blur resolve (per high-end-visual-design). */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(38px);
+  filter: blur(6px);
   transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.9s var(--ease-fluid),
+    transform 0.9s var(--ease-fluid),
+    filter 0.9s var(--ease-fluid);
   will-change: opacity, transform;
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: none;
+/* "Emerge from depth" — used where the first works rise out of the color cloud. */
+.reveal-emerge {
+  opacity: 0;
+  transform: translateY(64px) scale(0.94);
+  filter: blur(12px);
+  transition:
+    opacity 1.1s var(--ease-fluid),
+    transform 1.1s var(--ease-fluid),
+    filter 1.1s var(--ease-fluid);
+  will-change: opacity, transform;
 }
 
-/* Respect users who prefer reduced motion --------------------------------- */
+.reveal.is-visible,
+.reveal-emerge.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Accessibility: honour reduced motion ------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .reveal {
+  .reveal,
+  .reveal-emerge {
     opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
     transition: none !important;
   }
 }
